@@ -13,10 +13,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python 3.11
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
@@ -38,20 +38,32 @@ jobs:
           libncursesw5-dev \
           cmake \
           libffi-dev \
-          libssl-dev
+          libssl-dev \
+          python3-pip \
+          python3-setuptools
 
     - name: Install Buildozer
       run: |
         pip install --upgrade pip
-        pip install buildozer
-        pip install cython
+        pip install --upgrade buildozer
+        pip install --upgrade cython
+
+    - name: Accept Android SDK licenses
+      run: |
+        yes | sdkmanager --licenses || true
 
     - name: Build APK with Buildozer
+      env:
+        ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_ROOT }}
       run: |
         buildozer -v android debug
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
+      if: success()
       with:
         name: tons-apk
         path: bin/*.apk
+**¿Reemplazas el workflow completo y probamos de nuevo?** 🚀
+
+(Si vuelve a fallar, **pégame las últimas 50 líneas ANTES del "Command failed"** para ver el error exacto)
