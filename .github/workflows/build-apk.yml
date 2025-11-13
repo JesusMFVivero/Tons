@@ -64,6 +64,3 @@ jobs:
       with:
         name: tons-apk
         path: bin/*.apk
-**¿Reemplazas el workflow completo y probamos de nuevo?** 🚀
-
-(Si vuelve a fallar, **pégame las últimas 50 líneas ANTES del "Command failed"** para ver el error exacto)
